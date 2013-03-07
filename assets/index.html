@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Universal Reloader Wrapper Page</title>
+    <style>html, body { margin: 0; padding: 0; }</style>
+  </head>
+  <body>
+    <iframe frameborder="0" height="100%" width="100%" src="{{url}}"></iframe>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect(window.location.origin)
+      socket.on('update', function onUpdate(data) {
+        window.location.reload()
+      })
+    </script>
+  </body>
+</html>

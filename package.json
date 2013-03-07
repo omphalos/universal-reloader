@@ -1,0 +1,47 @@
+{
+  "name": "universal-reloader",
+  "preferGlobal": true,
+  "version": "0.1.0",
+  "author": "omphalos",
+  "description": "Ultra-compatible command-line tool for autoreloading most browsers on file changes",
+  "contributors": [
+    {
+      "name": "omphalos",
+    }
+  ],
+  "bin": {
+    "http-server": "./universal-reloader"
+  },
+  "scripts": {
+    "start": "node ./universal-reloader",
+  },
+  "main": "./universal-reloader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omphalos/universal-reloader.git"
+  },
+  "keywords": [
+    "cli",
+    "browser",
+    "refresh"
+    "live",
+    "edit",
+    "editor",
+    "autoreload",
+    "universal",
+    "reloader",
+    "iframe",
+    "websocket"
+  ],
+  "dependencies": {
+    "watch"     : "0.5.x",
+    "minimatch" : "0.2.x",
+    "optimist"  : "0.3.x",
+    "socket.io" : "1.0.x",
+    "underscore": "1.4.x"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8"
+  }
+}
