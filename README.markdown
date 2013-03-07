@@ -25,21 +25,23 @@ How does it work?
 Usage
 =====
 
-  npm install -g universal-reloader
+    npm install -g universal-reloader
+    
+Then you can run:
 
-  universal-reloader [arguments]
+    universal-reloader [arguments]
 
-  --debounce, -d  Debounce interval for throttling websocket publications           [default: 100]
-  --folder, -f    Root folder to watch for changes                                  [default: "."]
-  --mask, -m      Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html)  [default: "**/*"]
-  --port, -p      Port to run on                                                    [default: 8080]
-  --recent, -r    Interval of checks to the most-recently modified file             [default: 100]
-  --verbose, -v   Toggle verbose logging
-  --url, -u       Url to auto-reload on file changes (e.g., http://example.com)     [required]
+    --debounce, -d  Debounce interval for throttling websocket publications           [default: 100]
+    --folder, -f    Root folder to watch for changes                                  [default: "."]
+    --mask, -m      Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html)  [default: "**/*"]
+    --port, -p      Port to run on                                                    [default: 8080]
+    --recent, -r    Interval of checks to the most-recently modified file             [default: 100]
+    --verbose, -v   Toggle verbose logging
+    --url, -u       Url to auto-reload on file changes (e.g., http://example.com)     [required]
 
 For example, the following would watch all js and css files in the current directory while hosting example.com at http://localhost:8080:
 
-  universal-reloader --mask "**/*.js|**/*.css" --url http://example.com
+    universal-reloader --mask "**/*.js|**/*.css" --url http://example.com
 
 Notes
 =====
