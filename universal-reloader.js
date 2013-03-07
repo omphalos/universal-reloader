@@ -15,8 +15,8 @@ var argv = optimist.
   options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html)' }).
   options('port', { alias: 'p', default: 8080, describe: 'Port to run on'}).
   options('recent', { alias: 'r', default: 100, describe: 'Interval of checks to the most-recently modified file' }).
-  options('verbose', { alias: 'v', describe: 'Toggle verbose logging' }).
   options('url', { alias: 'u', describe: 'Url to auto-reload on file changes (e.g., http://example.com)' }).
+  options('verbose', { alias: 'v', describe: 'Toggle verbose logging' }).
   demand('url').
   argv
 

@@ -1,7 +1,7 @@
 {
   "name": "universal-reloader",
   "preferGlobal": true,
-  "version": "0.1.1",
+  "version": "0.1.6",
   "author": "omphalos",
   "description": "Ultra-compatible command-line tool for autoreloading most browsers on file changes",
   "contributors": [
@@ -10,10 +10,7 @@
     }
   ],
   "bin": {
-    "http-server": "./universal-reloader"
-  },
-  "scripts": {
-    "start": "node ./universal-reloader"
+    "universal-reloader": "./universal-reloader.js"
   },
   "main": "./universal-reloader",
   "repository": {
