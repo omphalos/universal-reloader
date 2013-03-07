@@ -33,7 +33,7 @@ var argFilters = argv.mask.split('|')
 //////////////////////
 
 var index = fs.
-  readFileSync('./assets/index.html').
+  readFileSync(__dirname + '/assets/index.html').
   toString().
   replace("{{url}}", url)
 
