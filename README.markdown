@@ -26,7 +26,7 @@ Usage
 =====
 
     npm install -g universal-reloader
-    
+
 Then you can run:
 
     universal-reloader [arguments]
@@ -36,8 +36,8 @@ Then you can run:
     --mask, -m      Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html)  [default: "**/*"]
     --port, -p      Port to run on                                                    [default: 8080]
     --recent, -r    Interval of checks to the most-recently modified file             [default: 100]
-    --verbose, -v   Toggle verbose logging
     --url, -u       Url to auto-reload on file changes (e.g., http://example.com)     [required]
+    --verbose, -v   Toggle verbose logging
 
 For example, the following would watch all js and css files in the current directory while hosting example.com at http://localhost:8080:
 
