@@ -41,7 +41,7 @@ var httpServer = http.createServer(function(req, res) {
 
   if(verbose) console.log('serving index.html')
 
-  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(index)
 })
 
@@ -53,8 +53,8 @@ var io = socketIo.listen(httpServer)
 
 httpServer.listen(port)
 
-console.log('Listening on port ' + port + '.');
-console.log('Navigate to http://localhost:' + port + ' to see your universal-reloadable page.');
+console.log('Listening on port ' + port + '.')
+console.log('Navigate to http://localhost:' + port + ' to see your universal-reloadable page.')
 
 var notify = _.debounce(function notify() {
 
@@ -68,7 +68,7 @@ var notify = _.debounce(function notify() {
 // watch files //
 /////////////////
 
-var mostRecentFile;
+var mostRecentFile
 
 function filter(file) {
 
@@ -92,9 +92,9 @@ function onWatchEvent(file, current, previous) {
 
 watch.watchTree(folderRoot, onWatchEvent)
 
-//////////////////////////////////////
-// set up most-recent-file listener //
-//////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// set up most-recent-file listener (for optimized file watching) //
+////////////////////////////////////////////////////////////////////
 
 setInterval(function checkMostRecentFile() {
 
