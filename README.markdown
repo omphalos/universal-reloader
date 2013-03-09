@@ -11,6 +11,21 @@ This tools aims to be *super simple* and *compatible* with almost anything.
 * It works with your editor (notepad, vim, Sublime, Visual Studio, Eclipse, anything else)
 * It works with your backend (PHP, ASP, Ruby, and more)
 
+Quick Start
+===========
+
+Execute:
+
+    npm install -g universal-reloader
+
+Navigate to the directory you want to watch.  Execute:
+
+    universal-reloader --port 8080 --url http://your-dev-server-goes-here
+
+Navigate to http://localhost:8080.
+
+Save a change to one of your files and watch your browser reload.
+
 How does it work?
 =================
 
@@ -39,12 +54,12 @@ Then you can run:
     --url, -u       Url to auto-reload on file changes (e.g., http://example.com)     [required]
     --verbose, -v   Toggle verbose logging
 
-For example, the following would watch all js and css files in the current directory while hosting example.com at http://localhost:8080:
+For example, the following would watch all js and css while hosting example.com at http://localhost:8080:
 
     universal-reloader --mask "**/*.js|**/*.css" --url http://example.com
 
-Notes
-=====
+Limitations
+===========
 
 Because this tool uses an iframe, sites that publish an "X-Frame-Options: SAMEORIGIN" header won't work with universal-reloader.
 
