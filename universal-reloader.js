@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-var _ = require('underscore')
-  , fs = require('fs')
+var _         = require('underscore')
+  , http      = require('http')
+  , fs        = require('fs')
   , minimatch = require('minimatch')
-  , optimist = require('optimist')
-  , socketIo = require('socket.io')
-  , watch = require('watch')
+  , optimist  = require('optimist')
+  , socketIo  = require('socket.io')
+  , watch     = require('watch')
 
 var argv = optimist.
   usage('Automatically reload your browser when files change.\nUsage: $0').
@@ -31,28 +32,32 @@ var options = {
   verbose:     argv.verbose === true
 }
 
-//////////////////////
-// start web server //
-//////////////////////
+if(options.verbose) console.log(options)
 
-var httpServer = require('./hosts/' + options.hostingType + '.js')(options)
-  , io = socketIo.listen(httpServer)
+// Start web server.
+var onHostedRequest = require('./hosts/' + options.hostingType + '.js')
+
+var httpServer = http.createServer(function onRequest(req, res) {
+  onHostedRequest(req, res, options)
+})
 
 httpServer.listen(options.port)
 
 console.log('Listening on port ' + options.port + '.')
 console.log('Navigate to http://localhost:' + options.port + ' to see your universal-reloadable page.')
 
+var io = socketIo.listen(httpServer)
+
 var notify = _.debounce(function innerNotify() {
 
-  if(options.verbose) console.log('emitting update')
+  if(options.verbose)
+    console.log('emitting update')
+
   io.sockets.emit('update', {})
+
 }, options.debounce)
 
-/////////////////
-// watch files //
-/////////////////
-
+// Watch files.
 var mostRecentFile
 
 function filter(file) {
@@ -76,10 +81,7 @@ function onWatchEvent(file, current, previous) {
 
 watch.watchTree(options.folderRoot, onWatchEvent)
 
-////////////////////////////////////////////////////////////////////
-// set up most-recent-file listener (for optimized file watching) //
-////////////////////////////////////////////////////////////////////
-
+// Set up most-recent-file listener (for optimized file watching).
 setInterval(function checkMostRecentFile() {
 
   if(!mostRecentFile) return

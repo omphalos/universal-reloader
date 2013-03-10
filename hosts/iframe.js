@@ -1,23 +1,23 @@
-var fs = require('fs')
+var fs   = require('fs')
   , http = require('http')
 
-module.exports = function(options) {
+var listenAndReloadScript
+  , index
 
-  var listenAndReloadScript = fs.
+module.exports = function onIFramRequest(req, res, options) {
+
+  listenAndReloadScript = listenAndReloadScript || fs.
     readFileSync(__dirname + '/../assets/listenAndReload.js').
     toString();
 
-  var index = fs.
+  index = index || fs.
     readFileSync(__dirname + '/../assets/index.html').
     toString().
     replace("{{url}}", options.url).
     replace("{{listenAndReload}}", listenAndReloadScript)
 
-  return http.createServer(function(req, res) {
+  if(options.verbose) console.log('serving index.html')
 
-    if(options.verbose) console.log('serving index.html')
-
-    res.writeHead(200, {'Content-Type': 'text/html'})
-    res.end(index)
-  })
+  res.writeHead(200, {'Content-Type': 'text/html'})
+  res.end(index)
 }
