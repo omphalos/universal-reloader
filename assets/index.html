@@ -6,11 +6,6 @@
   <body>
     <iframe frameborder="0" height="100%" width="100%" src="{{url}}"></iframe>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io.connect(window.location.origin)
-      socket.on('update', function onUpdate(data) {
-        window.location.reload()
-      })
-    </script>
+    <script>{{listenAndReload}}</script>
   </body>
 </html>

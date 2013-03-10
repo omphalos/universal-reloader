@@ -2,7 +2,6 @@
 
 var _ = require('underscore')
   , fs = require('fs')
-  , http = require('http')
   , minimatch = require('minimatch')
   , optimist = require('optimist')
   , socketIo = require('socket.io')
@@ -10,59 +9,45 @@ var _ = require('underscore')
 
 var argv = optimist.
   usage('Automatically reload your browser when files change.\nUsage: $0').
-  options('debounce', { alias: 'd', default: 100, describe: 'Debounce interval for throttling websocket publications' }).
-  options('folder', { alias: 'f', default: '.', describe: 'Root folder to watch for changes' }).
-  options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html)' }).
-  options('port', { alias: 'p', default: 8080, describe: 'Port to run on'}).
-  options('recent', { alias: 'r', default: 100, describe: 'Interval of checks to the most-recently modified file' }).
-  options('url', { alias: 'u', describe: 'Url to auto-reload on file changes (e.g., http://example.com)' }).
-  options('verbose', { alias: 'v', describe: 'Toggle verbose logging' }).
+  options('debounce', { alias: 'd', default: 100, describe: 'Debounce interval for throttling websocket publications.' }).
+  options('folder', { alias: 'f', default: '.', describe: 'Root folder to watch for changes.' }).
+  options('host', { alias: 'h', default: 'iframe', describe: 'Method to use to host your url: iframe or proxy.' }).
+  options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html).' }).
+  options('port', { alias: 'p', default: 8080, describe: 'Port to run on.'}).
+  options('recent', { alias: 'r', default: 100, describe: 'Interval of checks to the most-recently modified file.' }).
+  options('url', { alias: 'u', describe: 'Url to auto-reload on file changes (e.g., http://example.com).' }).
+  options('verbose', { describe: 'Toggle verbose logging.' }).
   demand('url').
   argv
 
-var argFilters = argv.mask.split('|')
-  , debounceInterval = argv.debounce
-  , folderRoot = argv.folder
-  , port = argv.port
-  , url = argv.url
-  , mostRecentFileCheckInterval = argv.recent
-  , verbose = argv.verbose === true
+var options = {
+  argFilters:  argv.mask.split('|'),
+  debounce:    argv.debounce,
+  folderRoot:  argv.folder,
+  hostingType: argv.host,
+  recentFile:  argv.recent,
+  port:        argv.port,
+  url:         argv.url,
+  verbose:     argv.verbose === true
+}
 
 //////////////////////
 // start web server //
 //////////////////////
 
-var index = fs.
-  readFileSync(__dirname + '/assets/index.html').
-  toString().
-  replace("{{url}}", url)
+var httpServer = require('./hosts/' + options.hostingType + '.js')(options)
+  , io = socketIo.listen(httpServer)
 
-var httpServer = http.createServer(function(req, res) {
+httpServer.listen(options.port)
 
-  if(verbose) console.log('serving index.html')
+console.log('Listening on port ' + options.port + '.')
+console.log('Navigate to http://localhost:' + options.port + ' to see your universal-reloadable page.')
 
-  res.writeHead(200, {'Content-Type': 'text/html'})
-  res.end(index)
-})
+var notify = _.debounce(function innerNotify() {
 
-//////////////////////
-// set up websocket //
-//////////////////////
-
-var io = socketIo.listen(httpServer)
-
-httpServer.listen(port)
-
-console.log('Listening on port ' + port + '.')
-console.log('Navigate to http://localhost:' + port + ' to see your universal-reloadable page.')
-
-var notify = _.debounce(function notify() {
-
-  if(verbose) console.log('emitting update')
-
+  if(options.verbose) console.log('emitting update')
   io.sockets.emit('update', {})
-
-}, debounceInterval)
+}, options.debounce)
 
 /////////////////
 // watch files //
@@ -72,10 +57,10 @@ var mostRecentFile
 
 function filter(file) {
 
-  return argFilters.some(function testArgFilter(argFilter) {
+  return options.argFilters.some(function testArgFilter(argFilter) {
 
     var result = minimatch(file, argFilter)
-    if(verbose) console.log(file + (result ? ' matched ' : ' failed to match ') + argFilter)
+    if(options.verbose) console.log(file + (result ? ' matched ' : ' failed to match ') + argFilter)
     return result
   })
 }
@@ -85,12 +70,11 @@ function onWatchEvent(file, current, previous) {
   if(current && typeof file === 'string' && filter(file)) {
 
     mostRecentFile = { file: file, stats: current }
+    notify()
   }
-
-  notify()
 }
 
-watch.watchTree(folderRoot, onWatchEvent)
+watch.watchTree(options.folderRoot, onWatchEvent)
 
 ////////////////////////////////////////////////////////////////////
 // set up most-recent-file listener (for optimized file watching) //
@@ -109,4 +93,4 @@ setInterval(function checkMostRecentFile() {
     notify()
   })
 
-}, mostRecentFileCheckInterval)
+}, options.recentFile)

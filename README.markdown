@@ -52,7 +52,7 @@ Then you can run:
     --port, -p      Port to run on                                                    [default: 8080]
     --recent, -r    Interval of checks to the most-recently modified file             [default: 100]
     --url, -u       Url to auto-reload on file changes (e.g., http://example.com)     [required]
-    --verbose, -v   Toggle verbose logging
+    --verbose       Toggle verbose logging
 
 For example, the following would watch all js and css while hosting example.com at http://localhost:8080:
 
