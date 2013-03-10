@@ -18,11 +18,10 @@ module.exports = function(options) {
   return http.createServer(function(req, res) {
 
     var buffer = new goblin.Buffer(res)
-
     res.on('end', function() {
 
       // insert the script into the outgoing html
-      if(buffer.getHeader('Content-Type') === 'text/html') {
+      if(buffer.headers['content-type'] === 'text/html') {
 
         $ = cheerio.load(buffer.getData())
         var root = $('body').length ? $('body') : $.root
