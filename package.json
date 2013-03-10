@@ -1,7 +1,7 @@
 {
   "name": "universal-reloader",
   "preferGlobal": true,
-  "version": "0.1.7",
+  "version": "0.2.0",
   "author": "omphalos",
   "description": "Ultra-compatible command-line tool for autoreloading most browsers on file changes",
   "contributors": [
@@ -31,13 +31,14 @@
     "websocket"
   ],
   "dependencies": {
-    "cheerio"   : "0.8.x",
-    "http-proxy": "0.8.x",
-    "minimatch" : "0.2.x",
-    "optimist"  : "0.3.x",
-    "socket.io" : "0.9.x",
-    "underscore": "1.4.x",
-    "watch"     : "0.5.x"
+    "cheerio"      : "0.8.x",
+    "http-proxy"   : "0.8.x",
+    "minimatch"    : "0.2.x",
+    "optimist"     : "0.3.x",
+    "proxy-gremlin": "0.1.x",
+    "socket.io"    : "0.9.x",
+    "underscore"   : "1.4.x",
+    "watch"        : "0.5.x"
   },
   "license": "MIT",
   "engines": {

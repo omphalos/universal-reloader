@@ -1,7 +1,7 @@
 var _ = require('underscore')
   , cheerio = require('cheerio')
   , fs = require('fs')
-  , goblin = require('../goblin.js')
+  , gremlin = require('proxy-gremlin')
   , http = require('http')
   , httpProxy = require('http-proxy')
   , url = require('url')
@@ -17,7 +17,10 @@ module.exports = function(options) {
 
   return http.createServer(function(req, res) {
 
-    var buffer = new goblin.Buffer(res)
+    // buffer the response using proxy-gremlin
+    var buffer = new gremlin.Buffer(res)
+
+    // set up a listener for when the response is complete
     res.on('end', function() {
 
       // insert the script into the outgoing html
@@ -26,20 +29,24 @@ module.exports = function(options) {
         $ = cheerio.load(buffer.getData())
         var root = $('body').length ? $('body') : $.root
 
-        if(options.verbose) console.log('intercepting ' + req.url)
+        if(options.verbose)
+          console.log('intercepting ' + req.url)
 
         root.append('<script src="/socket.io/socket.io.js"></script>\n')
         root.append('<script>\n' + listenAndReloadScript + '\n</script>\n')
 
+        // overwrite data in the request
         buffer.setData($.html())
       }
 
+      // send the buffered request
       buffer.send()
     })
 
     if(options.verbose)
       console.log({ message: 'proxying url', url: parsedUrl })
 
+    // Proxy the request
     proxy.proxyRequest(req, res, {
       host: parsedUrl.hostname,
       port: parsedUrl.port || 80
