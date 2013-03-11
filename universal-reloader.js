@@ -12,7 +12,7 @@ var argv = optimist.
   usage('Automatically reload your browser when files change.\nUsage: $0').
   options('debounce', { alias: 'd', default: 100, describe: 'Debounce interval for throttling websocket publications.' }).
   options('folder', { alias: 'f', default: '.', describe: 'Root folder to watch for changes.' }).
-  options('host', { alias: 'h', default: 'iframe', describe: 'Method to use to host your url: iframe or proxy.' }).
+  options('host', { alias: 'h', default: 'proxy', describe: 'Method to use to host your url: iframe or proxy.' }).
   options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html).' }).
   options('port', { alias: 'p', default: 8080, describe: 'Port to run on.'}).
   options('recent', { alias: 'r', default: 100, describe: 'Interval of checks to the most-recently modified file.' }).
