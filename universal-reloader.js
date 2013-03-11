@@ -13,7 +13,7 @@ var argv = optimist.
   options('debounce', { alias: 'd', default: 100, describe: 'Debounce interval for throttling websocket publications.' }).
   options('folder', { alias: 'f', default: '.', describe: 'Root folder to watch for changes.' }).
   options('host', { alias: 'h', default: 'proxy', describe: 'Method to use to host your url: iframe or proxy.' }).
-  options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file patterns to watch (e.g., **/*.css|**/*.html).' }).
+  options('mask', { alias: 'm', default: '**/*', describe: 'Pipe-delimited file masks to watch (e.g., **/*.css|**/*.js).' }).
   options('port', { alias: 'p', default: 8080, describe: 'Port to run on.'}).
   options('recent', { alias: 'r', default: 100, describe: 'Interval of checks to the most-recently modified file.' }).
   options('url', { alias: 'u', describe: 'Url to auto-reload on file changes (e.g., http://example.com).' }).
